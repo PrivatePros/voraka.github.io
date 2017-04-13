@@ -91,7 +91,6 @@
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
 
-
   <!--[if lte IE 8]>
   <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
     <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
@@ -298,6 +297,56 @@
         }
     });
 
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#idhyt-surprise-ball #idhyt-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+<div>
+
+    <button class="assist-btn circle" id="assist_btn" title="双击切换">
+        点亮
+    </button>
+
+</div>
 
 
 
@@ -306,7 +355,8 @@
 
 
 
-   
+
+      
 
     
 
@@ -340,18 +390,53 @@
 <blockquote>
 <p>Recent Visitors</p>
 </blockquote>
+<style type="text/css">
+    #ds-recent-visitors .ds-avatar {
+        float: left;
+    }
 
+    #ds-recent-visitors .ds-avatar img{
+        border-radius:50%;
+        // box-shadow:0 1px 3px rgba(0, 0, 0, 0.22);
 
+    }
 
+</style>
 
+<p><div class="ds-recent-visitors" data-num-items="36" data-avatar-size="50" id="ds-recent-visitors"></div><br><br><br><br></p>
+<!--
+<div class="ds-thread" data-thread-key="about/index.html" data-title="关于" data-url="http://voraka.github.io/about/index.html"> 
+</div>
+-->
+<script type="text/javascript">
+    var duoshuoQuery = {short_name:"voraka"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+
+</script>
 
     
+  </div>
 
+ </div>
 
         
 
         
-
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            
+          </div>
+        
+      </div>
 
       
   
@@ -377,28 +462,34 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-count">63</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             <a href="/categories">
-              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">categories</span>
               </a>
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-count">32</span>
               <span class="site-state-item-name">tags</span>
               </a>
           </div>
 
         </nav>
 
-
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
         
 
         <div class="links-of-author motion-element">
@@ -415,7 +506,16 @@
           
         </div>
 
- 
+        <div class="links-of-friendly motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+              <a href="http://voraka.github.io/about/" target="_blank">访客</a>
+              </span>
+            
+          
+        </div>
 
         
         
@@ -522,17 +622,72 @@
       </style>
 
 
+      <script type="text/javascript">
+
+        // var disqus_loaded = false;
+
+        var disqus_false_text = "Disqus评论可能被墙";
+
+        
+              disqus_false_text = "Disqus评论可能被墙，尝试加载多说。";
+        
+        
+        var show_btn = 
+          '<div class="show-commit-cls">  \
+            <a id="show_commit_btn" class="show-commit-btn" href="javascript:;" title="评论">评论/查看评论</a>  \
+            <div id="show_commit_dsp" class="show-commit-dsp"> ' + disqus_false_text + 
+            '</div> </div>';
+        var t_comments = document.getElementById("comments");
+        t_comments.insertAdjacentHTML("beforeBegin", show_btn);
+
+        $('.show-commit-dsp').hide();
+
+        <!--PC和WAP自适应版-->
+<div id="SOHUCS" ></div> 
+<script type="text/javascript"> 
+(function(){ 
+var appid = 'cysWBerCQ'; 
+var conf = 'prod_df0cd00884e78c448336ea463323a944'; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 960) { 
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+
+
+      </script>
+      <!--
+      <img src="https://lh4.googleusercontent.com/-lOxRXbE0_FM/V59i2VnJDxI/AAAAAAAAAAg/f2MXiY-UaAc7_f1rJXOtpQ1lbNjqRF0MQCL0B/w142-h135/disqus.jpg" style="display: none" onload="google_allow()" onerror="google_forbid()"/>
+      -->
+      <img src="http://disqus.com/api/users/avatars/disqus_api.jpg" style="display: none" onload="google_allow()" onerror="google_forbid()"/>
+
+    
+
+  
+
+
+
+
+
   
   
   <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
   <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
   <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
   <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
   <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
   <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
   <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
   <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
+  
 
   <script type="text/javascript">
     $(document).ready(function () {
@@ -544,6 +699,8 @@
       }
     });
   </script>
+
+  
 
   
   
