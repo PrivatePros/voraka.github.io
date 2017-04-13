@@ -343,7 +343,7 @@
 <div>
 
     <button class="assist-btn circle" id="assist_btn" title="双击切换">
-        亮
+        点亮
     </button>
 
 </div>
@@ -456,7 +456,7 @@
       <section class="site-overview">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" src="/images/default_avatar.jpg" alt="Voraka" itemprop="image"/>
-          <p class="site-author-name" itemprop="name">idhyt</p>
+          <p class="site-author-name" itemprop="name">Voraka</p>
         </div>
         <p class="site-description motion-element" itemprop="description">Stay Focus</p>
         <nav class="site-state motion-element">
@@ -642,50 +642,16 @@
 
         $('.show-commit-dsp').hide();
 
-        // define duoshuoQuery
-        var duoshuo_shortname = 'voraka';
-        var duoshuoQuery = {short_name: duoshuo_shortname};
+        <!--PC和WAP自适应版-->
+<div id="SOHUCS" ></div> 
+<script type="text/javascript"> 
+(function(){ 
+var appid = 'cysWBerCQ'; 
+var conf = 'prod_df0cd00884e78c448336ea463323a944'; 
+var width = window.innerWidth || document.documentElement.clientWidth; 
+if (width < 960) { 
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("http://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
 
-        document.getElementById('show_commit_btn').onclick = function() {
-          // if (!disqus_loaded) 
-          {
-            // disqus_loaded = true;
-            $('.show-commit-btn').hide();
-
-            // if google forbid, not load disqus.
-            if (!disqus_forbid) {
-              run_disqus_script('count.js');
-              
-                run_disqus_script('embed.js');
-              
-            }
-
-            // else load duoshuo.
-            else if (disqus_forbid) {
-              if ($('.show-commit-dsp').css("display") == "none") {
-                $('.show-commit-dsp').show(1500);
-              }
-              
-              // if google forbid then load duoshuo
-              if (duoshuo_shortname) {
-                (function() {
-                  var ds = document.createElement('script');
-                  ds.type = 'text/javascript';
-                  ds.async = true;
-                  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-                  ds.charset = 'UTF-8';
-                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-                })();
-              }
-              var duoshuo_comment = 
-                '<div class="ds-thread" \
-                    data-thread-key="about/index.html" \
-                    data-title="About" data-url="http://voraka.github.io/about/index.html">  \
-                </div>';
-              t_comments.insertAdjacentHTML("afterBegin", duoshuo_comment);
-            }
-          }
-        }
 
       </script>
       <!--
