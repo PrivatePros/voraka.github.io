@@ -400,13 +400,12 @@
         <div class="col-md-9" id="getWidth">
       <div class="article-wrap panel panel-default">
 
-                       <div id="contenttxt">
+                        <div id="contenttxt">
                             <h2 style="text-align: center;"><img width="690" height="388" alt="title.jpg" data-original="http://image.3001.net/images/20170502/14937124491500.jpg!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></h2>
 <noscript><img width="690" height="388" alt="title.jpg" src="http://image.3001.net/images/20170502/14937124491500.jpg!small"></h2></noscript>
 <h2>前言</h2>
-<blockquote><p><font color="#00b050">最近，我们发现了一种新型的勒索软件，因其使用了gmail作为邮箱服务器，故被命名为Gomasom。当用户运行了该勒索软件时，用户的文件会被加密，加密后的文件后缀名为&#8221;.crypt&#8221;。加密完成后会在桌面生成文件&#8221;Crypted.txt&#8221;，提示用户通过恶意软件作者提供的网址支付100欧元赎金。</font></p>
-</blockquote>
-<p>通过谷歌搜索<a href="https://www.bleepingcomputer.com/news/security/gomasom-crypt-ransomware-decrypted/">Gomasom</a>勒索软件并且初步分析后发现，这是该家族的一个新变种，其加密方式与网上所描述的加密方式及症状并不完全相同，并且也不能通过网上的解密工具来解密加密后的文件。因此我决定逆向分析其算法并写出它的解密工具。</p>
+<p><font color="#00b050"><b>最近，我们发现了一种新型的勒索软件，因其使用了gmail作为邮箱服务器，故被命名为Gomasom。当用户运行了该勒索软件时，用户的文件会被加密，加密后的文件后缀名为&#8221;.crypt&#8221;。加密完成后会在桌面生成文件&#8221;Crypted.txt&#8221;，提示用户通过恶意软件作者提供的网址支付100欧元赎金。</b></font></p>
+<p>通过谷歌搜索<a href="https://www.bleepingcomputer.com/news/security/gomasom-crypt-ransomware-decrypted/"><font color="#4298ba">Gomasom</font></a>勒索软件并且初步分析后发现，这是该家族的一个新变种，其加密方式与网上所描述的加密方式及症状并不完全相同，并且也不能通过网上的解密工具来解密加密后的文件。因此我决定逆向分析其算法并写出它的解密工具。</p>
 <h2><b>感染症状</b><br /></h2>
 <p>当恶意程序运行后，桌面会显示如下的勒索信息界面：</p>
 <p style="text-align: center;"><img width="300" height="500" alt="infected.png" data-original="http://image.3001.net/images/20170502/14937146267388.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
@@ -418,32 +417,35 @@
 <p>文件被加密，文件后缀名被更改为“.crypt”，如图：</p>
 <p style="text-align: center;"><img width="609" height="358" alt="goat.png" data-original="http://image.3001.net/images/20170502/14937165846634.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
 <noscript><img width="609" height="358" alt="goat.png" src="http://image.3001.net/images/20170502/14937165846634.png!small"></p></noscript>
-<p>我们打开了恶意作者提供的网站，并且<span style="color: rgb(51, 51, 51); font-size: 16px;">通过谷歌翻译，</span>发现如下信息：</p>
+<p>我们打开了恶意作者提供的网站，原文为俄语，<span style="color: rgb(51, 51, 51); font-size: 16px;">通过翻译后，</span>发现如下信息：</p>
 <p style="text-align: center;"><img width="619" height="152" alt="enc_3des.png" data-original="http://image.3001.net/images/20170502/14937170352910.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
 <noscript><img width="619" height="152" alt="enc_3des.png" src="http://image.3001.net/images/20170502/14937170352910.png!small"></p></noscript>
 <p>作者声称使用了3DES加密算法，并且“有许多的唯一的密钥被用来加密文件，想要解密是不可能的事情<span style="color: rgb(51, 51, 51); font-size: 16px;">”</span>。作者是否真的用了3DES算法加密文件？是否真的没办法恢复加密后的文件？带着疑问我们接下去通过逆向进行分析。</p>
 <h2><b>样本分析</b><br /></h2>
-<p>我们发现样本使用了upx壳，脱完壳我们发现程序是用delphi语言写的，在动态分析之前，我使用分析软件PEID和 DeDe 来尝试获得一些有价值的信息，如图：</p>
+<hr />
+<p>我们发现样本使用了upx壳，脱完壳我们发现程序是用delphi语言写的，在动态分析之前，我使用分析软件PEID和 DeDe 来尝试获得一些有价值的信息。</p>
+<p>通过PEID的Krypto Analyzer插件，我们发现使用了三种算法：base64, DES, MD5。如图：</p>
 <p style="text-align: center;"><img width="424" height="283" alt="peid.png" data-original="http://image.3001.net/images/20170502/14937174822146.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
 <noscript><img width="424" height="283" alt="peid.png" src="http://image.3001.net/images/20170502/14937174822146.png!small"></p></noscript>
-<p>通过PEID的Krypto Analyzer插件，我们发现使用了三种算法：base64, DES, MD5。</p>
-<p>通过DeDe 反编译，如图：</p>
+<p>通过Dephi反编译工具DeDe 进行反编译后，如图：</p>
 <p style="text-align: center;"><img width="617" height="373" alt="DeDe.png" data-original="http://image.3001.net/images/20170502/14937174024551.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
 <noscript><img width="617" height="373" alt="DeDe.png" src="http://image.3001.net/images/20170502/14937174024551.png!small"></p></noscript>
-<p>通过上图可以发现，病毒样本使用了名为&#8221;TDCP&#8221;的一个封装好的类，功能主要是用来加密的类。通过谷歌搜索发现，这是一个开源的Dephi的加密算法的工程，名为<a href="http://wiki.freepascal.org/DCPcrypt">DCPcrypt</a>。粗略的看了下源码，就是一个加密算法的类，具体病毒样本的具体加密流程我们依然不清楚，因此接下来进行动态分析。</p>
+<p>通过上图可以发现，病毒样本使用了名为&#8221;TDCP&#8221;的一个封装过的加密算法的类。通过搜索发现，这是一个开源的Dephi的加密算法类，名为<a href="http://wiki.freepascal.org/DCPcrypt"><font color="#4298ba">DCPcrypt</font></a>。粗略的看了下源码，由于源码中使用到的算法种类比较多，从源码中无法准确得知病毒样本使用了哪种算法，因此接下来进行动态分析。</p>
 <p>判断文件&#8221;C:\crypted.txt&#8221;是否存在，若存在则退出程序。如图：</p>
 <p style="text-align: center;"><img width="690" height="181" alt="d1.png" data-original="http://image.3001.net/images/20170502/14937198723891.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
 <noscript><img width="690" height="181" alt="d1.png" src="http://image.3001.net/images/20170502/14937198723891.png!small"></p></noscript>
 <h3>S/N生成算法<br /></h3>
+<p>通过调用Windows API函数 QueryPerformanceCounter，来获得随机数种子。随机种子<i>seedl</i> 接下去通过一个自定义码表生成一段长为14（0xe）字节的随机的字符串；随机种子<i>seed0 </i>被用作初始密钥的索引。</p>
 <p>_rand生成种子seed</p>
 <p style="text-align: center;"><img width="690" height="387" alt="rand.png" data-original="http://image.3001.net/images/20170502/149372001447.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
 <noscript><img width="690" height="387" alt="rand.png" src="http://image.3001.net/images/20170502/149372001447.png!small"></p></noscript>
-<p style="text-align: center;">_srand()通过seed种子，进一步运算生成新的种子。如图：<img width="690" height="272" alt="srand.png" data-original="http://image.3001.net/images/20170502/14937201632083.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<p>_srand()通过seed种子，进一步运算生成新的种子。如图：</p>
+<p style="text-align: center;"><img width="690" height="272" alt="srand.png" data-original="http://image.3001.net/images/20170502/14937201632083.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
 <noscript><img width="690" height="272" alt="srand.png" src="http://image.3001.net/images/20170502/14937201632083.png!small"></p></noscript>
 <p>将以上的代码，转化为Python代码，如图：</p>
 <p style="text-align: center;"><img width="468" height="148" alt="rand_srand.png" data-original="http://image.3001.net/images/20170502/14937202704681.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
 <noscript><img width="468" height="148" alt="rand_srand.png" src="http://image.3001.net/images/20170502/14937202704681.png!small"></p></noscript>
-<p>利用种子seedl，通过映射表获得随机字符，如图：</p>
+<p>利用种子seedl，通过自定义码表获得随机字符，如图：</p>
 <p style="text-align: center;"><img width="690" height="213" alt="gen_sn_od.png" data-original="http://image.3001.net/images/20170502/1493720725883.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
 <noscript><img width="690" height="213" alt="gen_sn_od.png" src="http://image.3001.net/images/20170502/1493720725883.png!small"></p></noscript>
 <p>转化为Python代码，如图：</p>
@@ -456,14 +458,23 @@
 <p>通过Python代码重新整理后，待加密的文件后缀名名列表如图：</p>
 <p style="text-align: center;"><img width="644" height="68" alt="ext.png" data-original="http://image.3001.net/images/20170502/14937213253519.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
 <noscript><img width="644" height="68" alt="ext.png" src="http://image.3001.net/images/20170502/14937213253519.png!small"></p></noscript>
-<p>从上面的拓展名加密列表中发现，不仅用户的文档，数据等会被加密，用户的程序源码也会被加密。看来对程序员有着深深的恶意！</p>
+<p>从上面的拓展名加密列表中发现，不仅用户的文档数据等会被加密，用户的程序源码（C语言，Delphi语言）也会被加密。看来对程序员有着深深的恶意！ 同时猜测病毒作者可能习惯于使用C语言和Delphi语言。</p>
 <h3>加密算法</h3>
-<p>初始密钥一共有10组，全部硬编码在程序中，S/N的最后一位数字，对应取出一组初始密钥（长度为0&#215;18）</p>
-<p style="text-align: center;"><img width="588" height="157" alt="md5_key.PNG" data-original="http://image.3001.net/images/20170502/14937229089778.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
-<noscript><img width="588" height="157" alt="md5_key.PNG" src="http://image.3001.net/images/20170502/14937229089778.png!small"></p></noscript>
-<p>十组硬编码的密钥：</p>
-<p></p>
-<p>通过MD5加密后生成新的密钥，长度为16字节，将生成的密钥作为新的密钥，用来加密文件。根据密钥长度，汇编代码，和其他信息我们得出，加密算法为<i>3DES。</i>更确切的说算法是 <i>3DES-128。</i></p>
+<p>初始密钥一共有10组，全部硬编码在程序中，S/N的最后一位数字seed0作为索引值，对应取出其中一组初始密钥（长度为0&#215;18），如图：</p>
+<p style="text-align: center;"><img width="578" height="124" alt="1.png" data-original="http://image.3001.net/images/20170504/14938605914090.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="578" height="124" alt="1.png" src="http://image.3001.net/images/20170504/14938605914090.png!small"></p></noscript>
+<p>整理后的全部十组硬编码的密钥，如图：</p>
+<p style="text-align: center;"><img width="690" height="167" alt="2.PNG" data-original="http://image.3001.net/images/20170504/1493860617339.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="690" height="167" alt="2.PNG" src="http://image.3001.net/images/20170504/1493860617339.png!small"></p></noscript>
+<p>通过MD5加密这组密钥后生成新的密钥，长度为16字节，MD5加密算法部分代码如图：</p>
+<p style="text-align: center;"><img width="441" height="301" alt="3.PNG" data-original="http://image.3001.net/images/20170504/14938620336954.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="441" height="301" alt="3.PNG" src="http://image.3001.net/images/20170504/14938620336954.png!small"></p></noscript>
+<p style="text-align: center;"><img width="472" height="79" alt="4.PNG" data-original="http://image.3001.net/images/20170504/14938620433231.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="472" height="79" alt="4.PNG" src="http://image.3001.net/images/20170504/14938620433231.png!small"></p></noscript>
+<p>通过MD5算法生成的新密钥，用来加密文件。根据之前反编译代码，加密算法密钥长度，反汇编代码，等，我们确定加密算法为<i>3DES。</i>更确切的说算法是 <i>3DES-128。</i></p>
+<p>下面简单介绍下<i>3DES</i>算法：</p>
+<blockquote><p>3DES（又叫Triple DES）是三重数据加密算法（TDEA，Triple Data Encryption Algorithm）块密码的通称。它相当于是对每个数据块应用三次DES加密算法。密钥长度是128位，192位(bit)，如果密码位数少于等于64位，加密结果与DES相同。原版DES容易被破解，新的3DES出现，增加了加密安全性,避免被暴力破解。它同样是对称性加密，同样涉及到加密编码方式，及填充方式。包括3DES-ECB,3DES-CBC,3DES-CTR,3DES-OFB,3DES-CFB</p>
+</blockquote>
 <p>因为只使用了一种加密算法，并且是对称加密算法，我们可以编写代码进行解密。如图：</p>
 <p style="text-align: center;"><img width="536" height="176" alt="decrypt_file.png" data-original="http://image.3001.net/images/20170502/14937228539139.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
 <noscript><img width="536" height="176" alt="decrypt_file.png" src="http://image.3001.net/images/20170502/14937228539139.png!small"></p></noscript>
@@ -471,12 +482,11 @@
 <p style="text-align: center;"><img width="666" height="168" alt="decrypt_file_cmd.png" data-original="http://image.3001.net/images/20170502/14937233465243.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
 <noscript><img width="666" height="168" alt="decrypt_file_cmd.png" src="http://image.3001.net/images/20170502/14937233465243.png!small"></p></noscript>
 <p>运行结果，如图：</p>
-<p style="text-align: center;"><img width="600" height="387" alt="decrypd.PNG" data-original="http://image.3001.net/images/20170502/14937235041461.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
-<noscript><img width="600" height="387" alt="decrypd.PNG" src="http://image.3001.net/images/20170502/14937235041461.png!small"></p></noscript>
+<p style="text-align: center;"><img width="667" height="424" alt="5.PNG" data-original="http://image.3001.net/images/20170504/14938630755929.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif"></p>
+<noscript><img width="667" height="424" alt="5.PNG" src="http://image.3001.net/images/20170504/14938630755929.png!small"></p></noscript>
 <p>样本：</p>
-<blockquote><p>f77e7569b2b2c54c006821b02ef76cd5f3826a37</p>
-</blockquote>
-<p>解密器代码下载地址：<a href="https://github.com/Voraka/Gomasom_Decryptor">https://github.com/Voraka/Gomasom_Decryptor</a></p>
+<pre><code>f77e7569b2b2c54c006821b02ef76cd5f3826a37</code></pre>
+<p>解密器代码下载地址：<a href="https://github.com/Voraka/Gomasom_Decryptor"><font color="#4298ba">https://github.com/Voraka/Gomasom_Decryptor</font></a></p>
 <h2><b>总结</b></h2>
 <p>该勒索软件的确使用了128位的3DES加密算法，但并不是不可解密的，因为其密钥保存在本地，甚至就保存在程序本身，而且密钥只有10组，即使用户删除了保存着密钥编号的文件“crypted.txt”，然而也可以遍历这些密钥来逐一尝试解密。因此勒索软件设计存在较大缺陷，也正是这个缺陷帮助我们恢复了被加密的文件。看似存在多个”加密芯片“，但本身设计就是不安全的，有缺陷的，被加密后仍然可能不安全。</p>
 <p><font color="#ef4747"><b>* 原创作者：Voraka，本文属FreeBuf原创奖励计划，未经许可禁止转载</b></font><b><font color="#00b050">&nbsp;</font></b></p>
