@@ -1,0 +1,1152 @@
+
+<!doctype html>
+<html class="theme-next use-motion theme-next-mala">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+  <meta name="google-site-verification" content="DRmBBL5LYsJ_2wCsJIYYsBfu8hVW8DQYzmpqGMp-njU" />
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+  <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="Stay focus" />
+
+
+
+  <meta name="keywords" content="Hexo,Mala" />
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Voraka's blog" type="application/atom+xml" />
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="About a month ago, when I was looking at the android kernle source code, I found a strange logic, it could trigger the device crash by bypassing the detection logic. I test it in Nexus 4 and the secur">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Belarus">
+<meta property="og:url" content="http://Voraka.github.io/2017/05/15/Belarus/index.html">
+<meta property="og:site_name" content="Voraka's blog">
+<meta property="og:description" content="About a month ago, when I was looking at the android kernle source code, I found a strange logic, it could trigger the device crash by bypassing the detection logic. I test it in Nexus 4 and the secur">
+<meta property="og:updated_time" content="2017-05-15T08:55:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Belarus ">
+<meta name="twitter:description" content="About a month ago, when I was looking at the android kernle source code, I found a strange logic, it could trigger the device crash by bypassing the detection logic. I test it in Nexus 4 and the secur">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mala',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 揭秘“披着狼皮的羊”感染型病毒Belarus | Voraka's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-71783676-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?5228d77c5752954f270fcca0908555af";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">Voraka</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu menu-left">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            <i class="menu-item-icon icon-next-categories"></i> <br />
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            <i class="menu-item-icon icon-next-about"></i> <br />
+            About
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <form class="site-search-form">
+    <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+  </form>
+
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'sVJDxDCDcUGeK1KkM6zN','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    
+      
+
+      
+        <style type="text/css">
+
+    .circle {
+        width: 40px;
+        height: 40px;
+        background: #555 no-repeat;
+        cursor: move;
+    }
+
+    .assist-btn {
+        position: fixed;
+        top: 50％;
+        left: 10px;
+        -moz-border-radius: 50px;
+        -webkit-border-radius: 50px;
+        border-radius: 50px;
+        outline: none;
+        border: none;
+        color: #87daff;
+    }
+
+</style>
+
+<script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+<script type="text/javascript">
+    // 浮动圆点展开与收缩
+    /*
+    $(function () {
+        var assist_box = $('.assist-box');
+        $('#assist_btn').hover(function () {
+            assist_box.stop().show(300);
+        }, function () {
+            assist_box.stop().hide(150);
+        })
+    });
+    */  
+    //浮动圆点拖动
+    $(function () {
+        var box = document.getElementById('assist_btn');
+        box.onmousedown = function (event) {
+            var e = event || window.event,
+                t = e.target || e.srcElement,
+                // 鼠标按下时的坐标x1,y1
+                x1 = e.clientX,
+                y1 = e.clientY,
+                //鼠标按下时的左右偏移量
+                dragLeft = this.offsetLeft,
+                dragTop = this.offsetTop;
+
+            document.onmousemove = function (event) {
+                var e = event || window.event,
+                    t = e.target || e.srcElement,
+                    // 鼠标移动时的动态坐标
+                    x2 = e.clientX,
+                    y2 = e.clientY,
+                    // 鼠标移动时的坐标的变化量
+                    x = x2 - x1,
+                    y = y2 - y1;
+                box.style.left = (dragLeft + x) + 'px';
+                box.style.top = (dragTop + y) + 'px';
+            }
+
+            document.onmouseup = function () {
+                this.onmousemove = null;
+            }
+        }
+    });
+
+/*
+    $whitesmoke   = #f5f5f5
+    $gainsboro    = #eee
+    $gray-lighter = #ddd
+    $grey-light   = #ccc
+    $grey         = #bbb
+    $grey-dark    = #999
+    $grey-dim     = #666
+    $black-light  = #555
+    $black-deep   = #222
+    $red          = #ff2a2a
+    $blue-bright  = #87daff
+    $blue         = #0684bd
+    $blue-deep    = #262a30
+*/
+    // white theme
+    var body = {color: "#555", background: "white"};
+    var a_tag = {color: "#222"};
+    var header = { background: "#f5f5f5"};
+    var logo_line_i = {background: "#222"};
+    // var post_code = {background: "#eee", color: "#222"};
+
+    function switch_theme() {
+        $("body").css(body);
+        $("a:not('.links-of-author-item a, .site-state-item a, .site-state-posts a, .feed-link a, .motion-element a, .post-tags a, .show-commit-cls a, #donate_board a')").css(a_tag);
+        $(".header, .footer").css(header);
+        $(".logo-line-before i, .logo-line-after i").css(logo_line_i);
+        //$(".post code").css(post_code);
+        $("#Voraka-surprise-ball #Voraka-surprise-ball-animation .drag").css(a_tag);
+        $(".post-title-link, .posts-expand .post-meta, .post-comments-count, .disqus-comment-count, .post-category a, .post-nav-next a, .post-nav-item a").css(a_tag);
+        
+        // $("code").css({color: '#c5c8c6', background: '#1d1f21'});
+        $("#assist_btn").hide(1500);
+    }
+
+    $(function () {
+        $("#assist_btn").dblclick(function() {
+            switch_theme();
+        });
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+      
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              揭秘“披着狼皮的羊”感染型病毒Belarus 
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          Posted on
+          <time itemprop="dateCreated" datetime="2017-05-15T23:28:11+08:00" content="2017-05-15">
+            2017-05-15
+          </time>
+        </span>
+
+        
+          <span class="post-category" >
+            &nbsp; | &nbsp; In
+            
+              <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <a href="/categories/virus/" itemprop="url" rel="index">
+                  <span itemprop="name">virus</span>
+                </a>
+              </span>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2017/05/15/Belarus/#comments" itemprop="discussionUrl">
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="/2017/05/15/Belarus/" itemprop="commentsCount"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+ </script>
+<div class="container pad-top35">
+  <div class="row clearfix">
+        <div class="col-md-9" id="getWidth">
+      <div class="article-wrap panel panel-default">
+
+                       <div id="contenttxt">
+                            <p style="text-align:center;"><img alt="computer-virus.jpg" data-original="http://image.3001.net/images/20170512/14945673459556.jpg!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" width="624" height="403" /></p>
+<noscript><img alt="computer-virus.jpg" src="http://image.3001.net/images/20170512/14945673459556.jpg!small" width="624" height="403" /></p></noscript>
+<h2>前言</h2>
+<hr />
+<p><font color="#00b050"><b>每当人们谈起病毒，蠕虫之类的话题，总给人一种让人不寒而栗的感觉，因为此类恶意程序通过自我复制迅速传播，给计算机造成极大的破坏。并且为了躲避杀毒软件的查杀，通常感染型病毒都会将自身分割</b></font><span style="font-size:14px;"><font color="#00b050"><b>、</b></font></span><font color="#00b050"><b>变形或加密后，再将自身的一部分或者全部附加到宿主程序上。</b></font></p>
+<p>今天分析的这款感染型病毒，可以说是感染型病毒中门槛最低<span style="font-size:14px;">、</span>最“傻瓜式”的一种。虽然不是多态病毒，并且该病毒程序难度并不高，但是病毒作者的思路也有”奇葩“和有趣的地方，故拿来与大家分享。</p>
+<h2>感染症状<br /></h2>
+<hr />
+<p>新建文件夹“goat”，用来存放待感染的目标文件，观察这些PE文件被感染后的特征，如图：</p>
+<p style="text-align:center;"><img width="690" height="362" alt="p1.PNG" data-original="http://image.3001.net/images/20170512/14945653599133.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="690" height="362" alt="p1.PNG" src="http://image.3001.net/images/20170512/14945653599133.png!small" /></p></noscript>
+<p>如上图所示，右图是目标文件感染后的截图，明显的看到文件图标更改了，并且每个文件的大小都增加了819KB。</p>
+<h2>样本分析</h2>
+<hr />
+<p>在正式分析之前，我们选择其中一个文件“test.exe”，观察其感染前后的文件大小，如图：</p>
+<p style="text-align:center;"><img width="690" height="469" alt="p2.PNG" data-original="http://image.3001.net/images/20170512/14945653706408.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="690" height="469" alt="p2.PNG" src="http://image.3001.net/images/20170512/14945653706408.png!small" /></p></noscript>
+<p>如上图所示，右图为感染后的文件大小，文件增加了1014434 &#8211; 176175 = 838259 字节。</p>
+<p>用PEID观察文件感染前后的PE区段的变化，如图：</p>
+<p style="text-align:center;"><img width="690" height="347" alt="p3.PNG" data-original="http://image.3001.net/images/20170512/14945653801467.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="690" height="347" alt="p3.PNG" src="http://image.3001.net/images/20170512/14945653801467.png!small" /></p></noscript>
+<p>如上图所示，文件由原本的VC程序变成Delphi程序，并且区段也与未感染文件完全不同。让我们一层一层看清这只纸老虎的真面目。</p>
+<p>用IDA打开病毒样本后，病毒入口点的代码如下图所示：</p>
+<p style="text-align:center;"><img width="690" height="273" alt="main.PNG" data-original="http://image.3001.net/images/20170510/14944068992482.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="690" height="273" alt="main.PNG" src="http://image.3001.net/images/20170510/14944068992482.png!small" /></p></noscript>
+<p>首先，病毒将自身释放到如下位置：“%system%\smrss.exe”，并通过修改系统配置文件的方法加入自启动。接着创建名为“BELARUS-VIRUS-MAKER”的互斥体，若病毒样本已经运行则退出，避免重复感染。</p>
+<p style="text-align:center;"><img width="690" height="149" alt="func1.PNG" data-original="http://image.3001.net/images/20170510/14944078768672.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="690" height="149" alt="func1.PNG" src="http://image.3001.net/images/20170510/14944078768672.png!small" /></p></noscript>
+<p>然后，病毒释放自身到如下位置“C:\WINDOWS\system32\freizer.exe”，“C:\WINDOWS\svchost.exe”，并通过修改注册表启动项，开入开机自启动，如图：</p>
+<p style="text-align:center;"><img width="690" height="148" alt="func2.PNG" data-original="http://image.3001.net/images/20170510/1494408900479.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="690" height="148" alt="func2.PNG" src="http://image.3001.net/images/20170510/1494408900479.png!small" /></p></noscript>
+<p>读取病毒文件末尾0&#215;10个字节，主要包含了一个随机文件名和一个十进制表示的文件大小，如图：</p>
+<p style="text-align:center;"><img width="688" height="100" alt="drop.PNG" data-original="http://image.3001.net/images/20170511/14944913204084.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="688" height="100" alt="drop.PNG" src="http://image.3001.net/images/20170511/14944913204084.png!small" /></p></noscript>
+<p style="text-align:center;"><img width="659" height="167" alt="read_filesize.PNG" data-original="http://image.3001.net/images/20170511/14944916199373.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="659" height="167" alt="read_filesize.PNG" src="http://image.3001.net/images/20170511/14944916199373.png!small" /></p></noscript>
+<p>在“C:\windows\temp\”文件夹下创建文件，文件名为前面读取的病毒文件末尾0&#215;10字节中的文件名，如图：</p>
+<p style="text-align:center;"><img width="502" height="131" alt="createfile.PNG" data-original="http://image.3001.net/images/20170511/14944923405068.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="502" height="131" alt="createfile.PNG" src="http://image.3001.net/images/20170511/14944923405068.png!small" /></p></noscript>
+<p>循环写入文件“C:\windows\temp\04004.exe”，写入文件的大小为前面读取的病毒文件末尾0&#215;10字节中的文件大小，如图：</p>
+<p style="text-align:center;"><img width="620" height="289" alt="loopwrite.PNG" data-original="http://image.3001.net/images/20170511/14944928125793.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="620" height="289" alt="loopwrite.PNG" src="http://image.3001.net/images/20170511/14944928125793.png!small" /></p></noscript>
+<p>写入的内容为病毒文件后附件的PE文件，病毒文件最后一个区段的结尾偏移地址为：0&#215;6800+0&#215;200 = 0x6A00，0x6A00位置的PE文件就是将要写入“C:\windows\temp\04004.exe”的内容。如图：</p>
+<p style="text-align:center;"><img width="621" height="328" alt="embaded.PNG" data-original="http://image.3001.net/images/20170511/1494493727162.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="621" height="328" alt="embaded.PNG" src="http://image.3001.net/images/20170511/1494493727162.png!small" /></p></noscript>
+<p style="text-align:center;"><img width="536" height="182" alt="sections.PNG" data-original="http://image.3001.net/images/20170511/1494493757865.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="536" height="182" alt="sections.PNG" src="http://image.3001.net/images/20170511/1494493757865.png!small" /></p></noscript>
+<p>写入文件完成后，执行释放后的PE文件，如图：</p>
+<p style="text-align:center;"><img width="613" height="114" alt="shellexecute.PNG" data-original="http://image.3001.net/images/20170511/1494494553461.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="613" height="114" alt="shellexecute.PNG" src="http://image.3001.net/images/20170511/1494494553461.png!small" /></p></noscript>
+<p>查看释放出的文件大小，如图：</p>
+<p style="text-align:center;"><img width="501" height="413" alt="drop_cured.PNG" data-original="http://image.3001.net/images/20170511/14944962171884.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="501" height="413" alt="drop_cured.PNG" src="http://image.3001.net/images/20170511/14944962171884.png!small" /></p></noscript>
+<p>如上图所示，释放的文件大小为：176175字节，通过计算Hash值并比对发现，释放并执行的文件既感染前的文件。即未感染文件就在病毒文件的PE中。（“披着狼皮的羊”）</p>
+<p>病毒程序遍历以下目录：&#8221;C:\&#8221;, &#8220;D:\&#8221;, &#8220;E:\temp&#8221;，获取文件后缀，若文件后缀为“exe”或“src”则感染，若文件后缀在“xlsx, xls, txt, jpg, jpeg, docx, doc, ppt, 3gp ”中，则直接删除文件。如图：</p>
+<p style="text-align:center;"><img width="523" height="111" alt="exts.PNG" data-original="http://image.3001.net/images/20170511/14944969255728.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="523" height="111" alt="exts.PNG" src="http://image.3001.net/images/20170511/14944969255728.png!small" /></p></noscript>
+<p style="text-align:center;"><img width="484" height="462" alt="ext_cmp.PNG" data-original="http://image.3001.net/images/20170512/14945564871924.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="484" height="462" alt="ext_cmp.PNG" src="http://image.3001.net/images/20170512/14945564871924.png!small" /></p></noscript>
+<p>判断要感染的目标PE文件：是否是正在运行的进程，是否是病毒文件本身，是否文件中包含如下字符串  ： “~c~a~n~n~a~b~i~s~~I~s~~n~o~t~~a~~d~r~u~g” （“大麻不是毒品”），以上条件若是则返回下一个文件，否则进行感染该PE文件，如图：</p>
+<p style="text-align:center;"><img width="690" height="294" alt="infect_file.PNG" data-original="http://image.3001.net/images/20170511/14944978987737.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="690" height="294" alt="infect_file.PNG" src="http://image.3001.net/images/20170511/14944978987737.png!small" /></p></noscript>
+<p>如上图所示，感染目标PE文件时，生成长度为5随机数字字符串，然后拼接上“.exe”，如图：</p>
+<p style="text-align:center;"><img width="579" height="288" alt="rand.PNG" data-original="http://image.3001.net/images/20170511/14944895026818.png!small" src="http://www.freebuf.com/buf/themes/freebuf/images/grey.gif" /></p>
+<noscript><img width="579" height="288" alt="rand.PNG" src="http://image.3001.net/images/20170511/14944895026818.png!small" /></p></noscript>
+<p>将待感染的目标PE写入病毒文件的后面，然后写入0&#215;10字节的附加数据，包含原始PE文件的大小和下次感染其他PE时释放到“C:\windows\temp\”目录下的文件名。</p>
+<p>至此，我们可以发现其实被感染后的PE文件，它的原始PE就附加在病毒文件后，当病毒文件运行时，从病毒文件的尾部释放为感染的PE文件到“C:\windows\temp\”下并运行，伪装成运行的是原始文件的假象。可以发现这个病毒程序其实就是披着狼皮的羊，只要稍做处理，就能修复被感染的PE。修复代码比较简单，有兴趣的话可以去下面的地址下载：</p>
+<p>去感染（修复）代码下载：<a href="https://github.com/Voraka/VirusCurer_Belarus">https://github.com/Voraka/VirusCurer_Belarus</a></p>
+<p>样本：</p>
+<pre>6610da7873ffa71bb04a899f7dc99bbe</pre>
+<h2>总结<br /></h2>
+<p>感染型病毒的编译方式正在从传统的全部直接由低级汇编语言撰写，逐渐转变为高级语言撰写的方式。因此随着编写难度上大幅度降低，未来将有更多新型功能更强的感染型病毒诞生。</p>
+                    </div>
+      
+
+    
+
+   
+    </div>
+
+    <footer class="post-footer">
+      
+
+              <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <p>下一篇: </p><a href="/2017/04/14/Philadelphia/" rel="next">最具同情心的勒索软件套件Philadelphia </a>
+            
+          </div>
+        </div>
+	  
+	  
+	  
+
+              
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div>
+      
+        <style type="text/css">
+
+    .donate_bar {
+        text-align: center;
+        margin-top : 5%;
+    }
+
+    .donate_bar.hidden {
+        display:none;
+    }
+/*
+    .donate_bar a.btn_donate {
+        display: inline-block;
+        width: 82px;
+        height: 82px;
+        margin-left:auto;
+        margin-right:auto;
+
+        background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat;
+        _background: url("http://img.t.sinajs.cn/t5/style/images/apps_PRF/e_media/btn_reward.gif") no-repeat; 
+
+        -webkit-transition: background 0s;
+        -moz-transition: background 0s;
+        -o-transition: background 0s;
+        -ms-transition: background 0s;
+        transition: background 0s;
+    }
+*/
+    .donate_bar a.btn_donate:hover { 
+        // background-position: 0px -82px;
+        color: #87daff
+    }
+
+    .donate_bar .donate_txt {
+        display: block;
+        color: #9d9d9d;
+        font: 14px/2 "Microsoft Yahei";
+    }
+
+    .bold { 
+        font-weight: bold; 
+    }
+
+    .post-donate a {
+        border-bottom: 0px;
+    }
+
+    #donate_guide table {
+        border: none;
+    }
+
+    #donate_guide td {
+        border-bottom: none;
+        border-right: none;
+        background: #333333;
+        valign: top;
+    }
+
+</style>
+
+
+
+    
+
+    <div class ="post-donate">
+        <div id="donate_board" class="donate_bar center">
+              <a id="btn_donate" class="btn_donate" href="javascript:;" title="打赏">赏</a>
+              <span id="donate_txt" class="donate_txt">
+                   
+                        仅仅是一个功能
+                   
+              </span>
+            <br>
+        </div>  
+  
+        <div id="donate_guide" class="donate_bar center hidden">
+            <!--
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="支付宝打赏" class="fancybox" rel="article0" 
+                    style="float:left;margin-left:25%;margin-right:10px;">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/alipay.jpg" title="" height="164px" width="164px">
+                </a> 
+              
+
+            
+                <a href="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="微信打赏" class="fancybox" rel="article0"
+                    style="margin-right:30%">
+                    <img src="http://o7keinrz4.bkt.clouddn.com/wechat.jpg" title="" height="164px" width="164px">
+                </a>
+            
+            -->
+                        <table>
+                <tr>
+                    <td>
+                            
+                            <a href="https://voraka.github.io/images/ali.png" title="支付宝打赏" class="fancybox" rel="article0" 
+                                style="float:left;margin-left:30%;margin-right:10px;">
+                                <img src="https://voraka.github.io/images/ali.png" title="" height="164px" width="164px"> <p align="center">支付宝打赏</p> 
+                            </a> 
+                         
+                    </td>
+                    <td>
+                            
+                            <a href="https://voraka.github.io/images/weixin.png" title="微信打赏" class="fancybox" rel="article0"
+                                style="float:left;margin-right:30%;margin-right:10px;">
+                                <img src="https://voraka.github.io/images/weixin.png" title="" height="164px" width="164px"><p align="center">微信打赏</p>
+                            </a>
+                        
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById('btn_donate').onclick = function() {
+                $('#donate_board').addClass('hidden');
+                // $('#donate_guide').removeClass('hidden');
+                $('#donate_guide').show(2000);
+            }
+
+        </script>
+    </div>
+
+    
+
+
+      
+    </div>
+
+  
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div id="disqus_thread">
+                <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table Of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Voraka" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">Voraka</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">Stay Focus</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">categories</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">tags</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="menu-item-icon icon-next-feed"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/voraka" target="_blank">GitHub</a><br>
+              </span>
+
+              <span class="links-of-author-item">
+                <a href="mailto:voraka@163.com" target="_blank">Email</a>
+              </span>
+            
+          
+        </div>
+
+        <div class="links-of-friendly motion-element">
+          
+            <br><p class="site-author-name">友情链接</p>
+            
+              <span class="links-of-author-item">
+              <a href="http://www.kanxue.com/" target="_blank">www.pediy.com</a><br>
+			  <a href="http://www.freebuf.com/" target="_blank">www.freebuf.com</a><br>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">This post does not have a Table Of Contents</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+   &copy; &nbsp;  2017 - 
+  <span itemprop="copyrightYear">2018
+  </span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Voraka
+  </span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://voraka.github.io">Voraka</a>
+</div>
+
+<!-- busuanzi -->
+
+
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+    
+
+
+  
+    <script type="text/javascript">
+      var disqus_shortname = 'Voraka';
+      var disqus_identifier = '2017/05/15/Belarus/';
+      var disqus_title = '解码内置不安全“加密芯片”的勒索软件Belarus ';
+      var disqus_url = 'https://voraka.github.io/2017/05/15/Belarus/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      var disqus_forbid = true;
+      function google_forbid() {
+        disqus_forbid = true;
+      }
+
+      function google_allow() {
+        disqus_forbid = false;
+      }
+
+    </script>
+
+    
+
+      <style type="text/css">
+        .show-commit-btn {
+            text-align: center;
+            margin-top: 5%;
+            display: inline-block;
+            color: #ddd;
+            font: 14px/2 "Microsoft Yahei";
+            background: #444;
+            padding: 1px 5px;
+            border-bottom: none;
+            // background:url("data:image/svg+xml;base64,PD94bWwgdm3Mz4=") no-repeat 0 50%
+            // background:url("http//xxxx.gif") no-repeat 0 
+        }
+        .show-commit-cls a:hover { 
+            // background-position: 0px -82px;
+            color: #87daff;
+            background: none;
+        }
+
+        .show-commit-dsp {
+            text-align: center;
+            font: 14px/2 "Microsoft Yahei";
+            color: #ddd;
+            margin-top: 5%;
+        }
+      </style>
+
+
+      <script type="text/javascript">
+
+        // var disqus_loaded = false;
+
+        var disqus_false_text = "Disqus评论可能被墙";
+
+        
+              disqus_false_text = "Disqus评论可能被墙，尝试加载多说。";
+        
+        
+        var show_btn = 
+          '<div class="show-commit-cls">  \
+            <a id="show_commit_btn" class="show-commit-btn" href="javascript:;" title="评论">评论/查看评论</a>  \
+            <div id="show_commit_dsp" class="show-commit-dsp"> ' + disqus_false_text + 
+            '</div> </div>';
+        var t_comments = document.getElementById("comments");
+        t_comments.insertAdjacentHTML("beforeBegin", show_btn);
+
+        $('.show-commit-dsp').hide();
+
+        // define duoshuoQuery
+        var duoshuo_shortname = 'Voraka';
+        var duoshuoQuery = {short_name: duoshuo_shortname};
+
+        document.getElementById('show_commit_btn').onclick = function() {
+          // if (!disqus_loaded) 
+          {
+            // disqus_loaded = true;
+            $('.show-commit-btn').hide();
+
+            // if google forbid, not load disqus.
+            if (!disqus_forbid) {
+              run_disqus_script('count.js');
+              
+                run_disqus_script('embed.js');
+              
+            }
+
+            // else load duoshuo.
+            else if (disqus_forbid) {
+              if ($('.show-commit-dsp').css("display") == "none") {
+                $('.show-commit-dsp').show(1500);
+              }
+              
+              // if google forbid then load duoshuo
+              if (duoshuo_shortname) {
+                (function() {
+                  var ds = document.createElement('script');
+                  ds.type = 'text/javascript';
+                  ds.async = true;
+                  ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                  ds.charset = 'UTF-8';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+                })();
+              }
+              var duoshuo_comment = 
+                '<div class="ds-thread" \
+                    data-thread-key="2017/05/15/Belarus/" \
+                    data-title="解码内置不安全“加密芯片”的勒索软件Belarus" data-url="https://voraka.github.io/2017/05/15/Belarus/">  \
+                </div>';
+              t_comments.insertAdjacentHTML("afterBegin", duoshuo_comment);
+            }
+          }
+        }
+
+      </script>
+      <!--
+      <img src="https://lh4.googleusercontent.com/-lOxRXbE0_FM/V59i2VnJDxI/AAAAAAAAAAg/f2MXiY-UaAc7_f1rJXOtpQ1lbNjqRF0MQCL0B/w142-h135/disqus.jpg" style="display: none" onload="google_allow()" onerror="google_forbid()"/>
+      -->
+      <img src="http://disqus.com/api/users/avatars/disqus_api.jpg" style="display: none" onload="google_allow()" onerror="google_forbid()"/>
+
+    
+
+  
+
+
+
+
+
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
